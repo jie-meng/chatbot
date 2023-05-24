@@ -8,6 +8,13 @@ ROLE_ASSISTANT = 'assistant'
 
 messages = []
 
+# 设置代理
+proxy = {
+    'http': 'http://localhost:8888',
+    'https': 'http://localhost:8888'
+}
+
+
 def add_message(role: str, content: str):
     messages.append({
         'role': role,
@@ -31,7 +38,7 @@ def chat_with_gpt(prompt):
         "temperature": 0.7
     }
 
-    response = requests.post(url, headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=data, proxies=proxy)
     response_data = json.loads(response.text)
 
     # chat_reply = response_data['choices'][0]['message']['content']
@@ -51,4 +58,3 @@ while True:
     # 打印 ChatGPT 的回复
     print("ChatGPT 的回复:", gpt_reply['content'])
     add_message(gpt_reply['role'], gpt_reply['content'])
-
