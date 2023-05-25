@@ -23,7 +23,7 @@ def proxy_request(path):
     body = request.get_data()
 
     # 获取请求头
-    headers = request.headers
+    headers = dict(request.headers)
     headers['Host'] = target_url.split('//')[1]
 
     try:
