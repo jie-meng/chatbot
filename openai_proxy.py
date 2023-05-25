@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import requests
 
 app = Flask(__name__)
@@ -28,10 +28,16 @@ def proxy_request(path):
 
     try:
         # 使用 Clash 代理进行转发
-        response = requests.request(method, url, headers=headers, data=body, proxies=proxy)
+        proxy_response = requests.request(method, url, headers=headers, data=body, proxies=proxy, stream=True)
 
-        # 返回代理响应
-        return response.content, response.status_code, response.headers.items()
+        # 构建响应对象
+        response = Response(
+            proxy_response.iter_content(chunk_size=8192),
+            proxy_response.status_code,
+            headers=dict(proxy_response.headers.items())
+        )
+
+        return response
 
     except requests.exceptions.RequestException as e:
         return str(e), 500
