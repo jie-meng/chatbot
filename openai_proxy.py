@@ -29,10 +29,14 @@ def proxy_request(path):
     try:
         # 使用 Clash 代理进行转发
         proxy_response = requests.request(method, url, headers=headers, data=body, proxies=proxy, stream=True)
+        
+        def generate_proxy_response():
+            for chunk in proxy_response.iter_content(chunk_size=8192):
+                yield chunk
 
         # 构建响应对象
         response = Response(
-            proxy_response.iter_content(chunk_size=8192),
+            generate_proxy_response(),
             proxy_response.status_code,
             headers=dict(proxy_response.headers.items())
         )
