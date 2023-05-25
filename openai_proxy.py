@@ -1,3 +1,5 @@
+import os
+import json
 from flask import Flask, request, Response
 import requests
 
@@ -20,28 +22,28 @@ def proxy_request(path):
 
     # 获取请求方法和请求体
     method = request.method
-    body = request.get_data()
 
-    # 获取请求头
-    headers = dict(request.headers)
-    headers['Host'] = target_url.split('//')[1]
+    headers = {
+        'Content-Type': request.headers.get('Content-Type'),
+        # 'Authorization': request.headers.get('Authorization')
+        'Authorization': 'Bearer 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',
+    }
+
+
+    api_key = os.environ.get('OPENAI_API_KEY')
+    # headers2 = {
+    #     'Content-Type': 'application/json',
+    #     'Authorization': f'Bearer {api_key}'
+    # }
+
+    print(headers)
 
     try:
         # 使用 Clash 代理进行转发
-        proxy_response = requests.request(method, url, headers=headers, data=body, proxies=proxy, stream=True)
-        
-        def generate_proxy_response():
-            for chunk in proxy_response.iter_content(chunk_size=8192):
-                yield chunk
+        proxy_response = requests.request(method, url, headers=headers, json=request.get_json(), proxies=proxy)
+        # proxy_response = requests.request(method, url, headers=headers, data=body, proxies=proxy, stream=True)
 
-        # 构建响应对象
-        response = Response(
-            generate_proxy_response(),
-            proxy_response.status_code,
-            headers=dict(proxy_response.headers.items())
-        )
-
-        return response
+        return proxy_response.json()
 
     except requests.exceptions.RequestException as e:
         return str(e), 500
