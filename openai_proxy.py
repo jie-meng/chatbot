@@ -1,6 +1,5 @@
 import os
-import json
-from flask import Flask, request, Response
+from flask import Flask, request
 import requests
 
 app = Flask(__name__)
@@ -25,16 +24,9 @@ def proxy_request(path):
 
     headers = {
         'Content-Type': request.headers.get('Content-Type'),
+        'Authorization': f'Bearer {os.getenv("OPENAI_API_KEY")}'
         # 'Authorization': request.headers.get('Authorization')
-        'Authorization': 'Bearer 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',
     }
-
-
-    api_key = os.environ.get('OPENAI_API_KEY')
-    # headers2 = {
-    #     'Content-Type': 'application/json',
-    #     'Authorization': f'Bearer {api_key}'
-    # }
 
     print(headers)
 
