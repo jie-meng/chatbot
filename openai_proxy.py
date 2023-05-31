@@ -8,14 +8,15 @@ app = Flask(__name__)
 target_url = 'https://api.openai.com'
 
 is_docker = os.getenv('IS_DOCKER', 'No') == 'Yes'
+host_ip = os.getenv('HOST_IP', 'localhost')
+
+print(f'host_ip: {host_ip}')
 
 # 代理配置
 proxy = {
-    'http': f'http://{"host.docker.internal" if is_docker else "localhost"}:8888',
-    'https': f'http://{"host.docker.internal" if is_docker else "localhost"}:8888'
+    'http': f'http://{host_ip}:8888',
+    'https': f'http://{host_ip}:8888'
 }
-
-print(proxy)
 
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'DELETE'])
 @app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])

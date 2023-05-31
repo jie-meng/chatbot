@@ -13,7 +13,8 @@ RUN pip install --trusted-host pypi.python.org -Ur requirements.txt
 # Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-ENV IS_DOCKER Yes
+ENV IS_DOCKER=$IS_DOCKER
+ENV HOST_IP=$HOST_IP
 
 # Run app.py when the container launches
 CMD ["python", "openai_proxy.py"]
