@@ -3,6 +3,12 @@
 # 获取标签参数 
 tag=$1
 
+# 检查入参
+if [ -z $tag ]; then
+    echo "Error: tag is empty. Please provide a tag name."
+    exit 1 
+fi
+
 # 设置镜像名和 repo 
 image="openai-proxy"
 repo="jmengxy/openai-proxy"
