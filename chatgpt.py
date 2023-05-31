@@ -23,7 +23,8 @@ def add_message(role: str, content: str):
 
 def chat_with_gpt(prompt):
     api_key = os.environ.get('OPENAI_API_KEY')
-    url = 'https://api.openai.com/v1/chat/completions'
+    # url = 'https://api.openai.com/v1/chat/completions'
+    url = 'http://localhost:8000/v1/chat/completions'
 
     headers = {
         'Content-Type': 'application/json',
@@ -39,6 +40,7 @@ def chat_with_gpt(prompt):
     }
 
     response = requests.post(url, headers=headers, json=data, proxies=proxy)
+    print(response)
     response_data = json.loads(response.text)
 
     # chat_reply = response_data['choices'][0]['message']['content']
