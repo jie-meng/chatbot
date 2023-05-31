@@ -22,4 +22,4 @@ docker images
 
 # 运行镜像
 echo "Running $repo:$tag..."
-docker run -p 8000:8000 $repo:$tag
+docker run -d -p 8000:8000 $repo:$tag
