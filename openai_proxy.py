@@ -15,6 +15,8 @@ proxy = {
     'https': f'http://{"host.docker.internal" if is_docker else "localhost"}:8888'
 }
 
+print(proxy)
+
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST', 'PUT', 'DELETE'])
 @app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def proxy_request(path):
