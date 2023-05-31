@@ -22,4 +22,4 @@ docker images
 
 # 运行镜像
 echo "Running $repo:$tag..."
-docker run -d -name openai-proxy -p 8000:8000 $repo:$tag
+docker run -e IS_DOCKER=Yes -d --name openai-proxy -p 8000:8000 $repo:$tag
