@@ -29,4 +29,4 @@ docker stop openai-proxy
 
 # 运行镜像
 echo "Running $repo:$tag..."
-docker run -e IS_DOCKER=Yes -e HOST_IP=$hostip -d --name openai-proxy -p 8000:8000 $repo:$tag
+docker run -e IS_DOCKER=Yes -e HOST_IP=$hostip --rm --name openai-proxy -d -p 8000:8000 $repo:$tag
