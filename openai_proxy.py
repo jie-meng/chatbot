@@ -24,15 +24,13 @@ def proxy_request(path):
 
     headers = {
         'Content-Type': request.headers.get('Content-Type'),
-        'Authorization': f'Bearer {os.getenv("OPENAI_API_KEY")}'
-        # 'Authorization': request.headers.get('Authorization')
+        # 'Authorization': f'Bearer {os.getenv("OPENAI_API_KEY")}'
+        'Authorization': request.headers.get('Authorization')
     }
-
-    print(headers)
 
     try:
         # 使用 Clash 代理进行转发
-        proxy_response = requests.request(method, url, headers=headers, json=request.get_json(), proxies=proxy)
+        proxy_response = requests.request(method, url, headers=headers, json=request.get_json(), proxies=proxy) # type: ignore
         # proxy_response = requests.request(method, url, headers=headers, data=body, proxies=proxy, stream=True)
 
         return proxy_response.json()
