@@ -23,6 +23,10 @@ docker pull $repo:$tag
 # 列出本地镜像,确认拉取成功
 docker images
 
+# 停止现有容器  
+echo "Stopping existing container..."
+docker stop openai-proxy
+
 # 运行镜像
 echo "Running $repo:$tag..."
 docker run -e IS_DOCKER=Yes -e HOST_IP=$hostip -d --name openai-proxy -p 8000:8000 $repo:$tag
